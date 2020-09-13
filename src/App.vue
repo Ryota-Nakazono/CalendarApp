@@ -1,56 +1,61 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" dark>
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
       <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
+      <v-app-bar-nav-icon
+        class="hidden-sm-and-up"
+        @click.stop="drawer = !drawer"
       >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
+      </v-app-bar-nav-icon>
+      <v-toolbar-items class="hidden-xs-only">
+        <v-btn
+          v-for="item in items"
+          :key="item.title"
+          :to="item.link"
+          text
+          small
+        >
+          {{ item.title }}
+        </v-btn>
+      </v-toolbar-items>
     </v-app-bar>
+    <v-navigation-drawer v-model="drawer" app temporary right>
+      <v-list>
+        <v-list-item v-for="item in items" :key="item.title" :to="item.link">
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
 
     <v-main>
-      <HelloWorld />
+      <h1>CalendarApp</h1>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
+// import HelloWorld from "./components/HelloWorld";
 
 export default {
   name: "App",
 
-  components: {
-    HelloWorld
-  },
+  // components: {
+  //   HelloWorld
+  // },
 
-  data: () => ({
-    //
-  })
+  data: () => {
+    return {
+      drawer: false,
+      items: [
+        { title: "基本設定", link: "/" },
+        { title: "アプリの使い方", link: "./works" },
+        { title: "利用情報", link: "./about" },
+        { title: "お問い合わせ", link: "./contact" },
+        { title: "ログアウト", link: "./logout" }
+      ]
+    };
+  }
 };
 </script>
