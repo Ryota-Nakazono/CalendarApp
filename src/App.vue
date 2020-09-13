@@ -30,21 +30,14 @@
     </v-navigation-drawer>
 
     <v-main>
-      <h1>CalendarApp</h1>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script>
-// import HelloWorld from "./components/HelloWorld";
-
 export default {
   name: "App",
-
-  // components: {
-  //   HelloWorld
-  // },
-
   data: () => {
     return {
       drawer: false,
