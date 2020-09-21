@@ -14,7 +14,7 @@
         type="color"
         label="color (click to open color menu)"
       ></v-text-field>
-      <v-btn type="submit" color="primary" class="mr-4">
+      <v-btn @click="creatEvent" type="submit" color="primary" class="mr-4">
         create event
       </v-btn>
     </v-form>
@@ -29,6 +29,11 @@ export default {
     start: null,
     end: null,
     color: "#1976D2"
-  })
+  }),
+  methods: {
+    createEvent: () => {
+      console.log("イベントが作成されました");
+    }
+  }
 };
 </script>
