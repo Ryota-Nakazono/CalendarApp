@@ -1,42 +1,30 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getEvent = /* GraphQL */ `
-  query GetEvent($id: ID!) {
-    getEvent(id: $id) {
-      comments {
-        items {
-          commentId
-          content
-          createdAt
-          eventId
-        }
-        nextToken
-      }
-      description
+export const getTodo = /* GraphQL */ `
+  query GetTodo($id: ID!) {
+    getTodo(id: $id) {
       id
       name
-      when
-      where
+      description
+      createdAt
+      updatedAt
     }
   }
 `;
-export const listEvents = /* GraphQL */ `
-  query ListEvents(
-    $filter: TableEventFilterInput
+export const listTodos = /* GraphQL */ `
+  query ListTodos(
+    $filter: ModelTodoFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listEvents(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        comments {
-          nextToken
-        }
-        description
         id
         name
-        when
-        where
+        description
+        createdAt
+        updatedAt
       }
       nextToken
     }
