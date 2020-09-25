@@ -1,6 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Calendar from "../views/Calendar.vue";
+import Home from "../views/Home.vue";
 import NewEvent from "../views/NewEvent.vue";
 
 Vue.use(VueRouter);
@@ -8,12 +8,12 @@ Vue.use(VueRouter);
 const routes = [
   {
     path: "/",
-    name: "Calendar",
-    component: Calendar
+    name: "home",
+    component: Home
   },
   {
-    path: "/NewEvent",
-    name: "NewEvent",
+    path: "/newEvent",
+    name: "newEvent",
     component: NewEvent
   }
 ];
