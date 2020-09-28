@@ -95,12 +95,23 @@
         </v-sheet>
       </v-col>
     </v-row>
+    <div v-for="todo in todos" :key="todo.id">
+      <h3>{{ todo.name }}</h3>
+      <p>{{ todo.description }}</p>
+    </div>
   </div>
 </template>
 
 <script>
+import { API } from "aws-amplify";
+import { listTodos } from "../graphql/queries";
+
 export default {
+  async created() {
+    this.getTodos();
+  },
   data: () => ({
+    todos: [],
     focus: "",
     type: "month",
     typeToLabel: {
@@ -122,20 +133,16 @@ export default {
       "orange",
       "grey darken-1"
     ],
-    names: [
-      "Meeting",
-      "Holiday",
-      "PTO",
-      "Travel",
-      "Event",
-      "Birthday",
-      "Conference",
-      "Party"
-    ]
+    names: []
   }),
   mounted() {
     this.$refs.calendar.checkChange();
   },
+  // computed: {
+  //   todoname() {
+  //     return this.$store.state.name;
+  //   }
+  // },
   methods: {
     viewDay({ date }) {
       this.focus = date;
@@ -175,7 +182,12 @@ export default {
       const min = new Date(`${start.date}T00:00:00`);
       const max = new Date(`${end.date}T23:59:59`);
       const days = (max.getTime() - min.getTime()) / 86400000;
+      // 86400000ミリ秒（1000ミリ秒×60秒60分×24時間）で割り、「経過日数」を計算
       const eventCount = this.rnd(days, days + 20);
+      //  rnd(a, b) {
+      //   return Math.floor((b - a + 1) * Math.random()) + a;
+      //  },
+      console.log(days);
 
       for (let i = 0; i < eventCount; i++) {
         const allDay = this.rnd(0, 3) === 0;
@@ -192,11 +204,17 @@ export default {
           timed: !allDay
         });
       }
-
-      this.events = events;
     },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
+    },
+    async getTodos() {
+      const todos = await API.graphql({
+        query: listTodos
+      });
+      this.events = todos.data.listTodos.items;
+      // this.$emit("getTodo", this.todos[0].name);
+      // this.$store.commit("todocommit", this.todos[5].name);
     }
   }
 };

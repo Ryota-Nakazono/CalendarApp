@@ -33,10 +33,10 @@
         <router-link to="/">New</router-link>
       </v-btn> -->
     </v-form>
-    <!-- <div v-for="todo in todos" :key="todo.id">
+    <div v-for="todo in todos" :key="todo.id">
       <h3>{{ todo.name }}</h3>
       <p>{{ todo.description }}</p>
-    </div> -->
+    </div>
   </v-container>
 </template>
 
@@ -46,7 +46,6 @@ import { createTodo, deleteTodo } from "../graphql/mutations";
 import { listTodos } from "../graphql/queries";
 
 export default {
-  name: "App",
   async created() {
     this.getTodos();
   },
@@ -76,19 +75,20 @@ export default {
     calendar() {
       this.$router.push({ path: "/" });
     },
-    async getTodos() {
-      const todos = await API.graphql({
-        query: listTodos
-      });
-      this.todos = todos.data.listTodos.items;
-      // this.$emit("getTodo", this.todos[0].name);
-    },
     async deleteTodo() {
       await API.graphql(
         graphqlOperation(deleteTodo, {
           input: { id: this.todos[0].id }
         })
       );
+    },
+    async getTodos() {
+      const todos = await API.graphql({
+        query: listTodos
+      });
+      this.todos = todos.data.listTodos.items;
+      // this.$emit("getTodo", this.todos[0].name);
+      // this.$store.commit("todocommit", this.todos[5].name);
     }
   }
 };
