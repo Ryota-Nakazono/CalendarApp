@@ -1,5 +1,8 @@
-type Todo @model {
+type Event @model {
   id: ID!
   name: String!
-  description: String
+  details: String
+  start: AWSDate!
+  end: AWSDate!
+  color: String
 }

@@ -8,7 +8,7 @@
         {{ item.title }}
       </v-btn>
     </v-toolbar-items>
-    <v-navigation-drawer v-model="drawer" app temporary right>
+    <v-navigation-drawer v-model="drawer" absolute temporary right>
       <v-list>
         <v-list-item v-for="item in items" :key="item.title" :to="item.link">
           <v-list-item-content>

@@ -8,7 +8,7 @@ export default new Vuex.Store({
     name: ""
   },
   mutations: {
-    todocommit(state, name) {
+    eventCommit(state, name) {
       state.name = name;
     }
   }
