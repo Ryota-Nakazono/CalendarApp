@@ -70,7 +70,7 @@
           <v-card color="grey lighten-4" min-width="350px" flat>
             <v-toolbar :color="selectedEvent.color" dark>
               <v-btn icon>
-                <v-icon>mdi-pencil</v-icon>
+                <v-icon v-on:click="changeEvent">mdi-pencil</v-icon>
               </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
@@ -147,6 +147,7 @@ export default {
       const open = () => {
         this.selectedEvent = event;
         this.selectedElement = nativeEvent.target;
+        console.log(this.selectedEvent);
         setTimeout(() => {
           this.selectedOpen = true;
         }, 10);
@@ -157,36 +158,23 @@ export default {
       } else {
         open();
       }
-
       nativeEvent.stopPropagation();
     },
-    // updateRange({ start, end }) {
-    //   const events = [];
-
-    //   const min = new Date(`${start.date}T00:00:00`);
-    //   const max = new Date(`${end.date}T23:59:59`);
-    //   const days = (max.getTime() - min.getTime()) / 86400000;
-    //   const eventCount = this.rnd(days, days + 20);
-
-    //   for (let i = 0; i < eventCount; i++) {
-    //     const allDay = this.rnd(0, 3) === 0;
-    //     const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-    //     const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-    //     const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-    //     const second = new Date(first.getTime() + secondTimestamp);
-
-    //     events.push({
-    //       name: this.names[this.rnd(0, this.names.length - 1)],
-    //       start: first,
-    //       end: second,
-    //       color: this.colors[this.rnd(0, this.colors.length - 1)],
-    //       timed: !allDay
-    //     });
-    //   }
-
-    //   this.events = events;
-    //   console.log(this.events);
-    // },
+    changeEvent() {
+      const todayEventId = this.selectedEvent.id;
+      const todayEventName = this.selectedEvent.name;
+      const todayEventDetails = this.selectedEvent.details;
+      let startD = this.selectedEvent.start;
+      const todayEventStart = startD.toISOString().split("T")[0];
+      let endD = this.selectedEvent.end;
+      const todayEventEnd = endD.toISOString().split("T")[0];
+      this.$store.commit("eventId", todayEventId);
+      this.$store.commit("eventName", todayEventName);
+      this.$store.commit("eventDetails", todayEventDetails);
+      this.$store.commit("eventStart", todayEventStart);
+      this.$store.commit("eventEnd", todayEventEnd);
+      this.$router.push({ name: "changeEvent", path: "/changeEvent" });
+    },
     rnd(a, b) {
       return Math.floor((b - a + 1) * Math.random()) + a;
     },
@@ -196,8 +184,10 @@ export default {
         query: listEvents
       });
       const eventItems = allGetEvents.data.listEvents.items;
+      console.log(eventItems);
       for (let i = 0; i < eventItems.length; i++) {
         events.push({
+          id: eventItems[i].id,
           name: eventItems[i].name,
           start: new Date(eventItems[i].start),
           end: new Date(eventItems[i].end),

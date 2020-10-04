@@ -21,16 +21,7 @@
         delete event
       </v-btn>
       <v-btn @click="calendar">戻る</v-btn>
-      <!-- <v-btn outlined>
-        <router-link to="/">New</router-link>
-      </v-btn> -->
     </v-form>
-    <div v-for="event in events" :key="event.id">
-      <h3>{{ event.name }}</h3>
-      <p>{{ event.details }}</p>
-      <p>{{ event.start }}</p>
-      <p>{{ event.end }}</p>
-    </div>
   </v-container>
 </template>
 
@@ -48,6 +39,7 @@ export default {
       details: "",
       start: "",
       end: "",
+      event: {},
       events: []
     };
   },
@@ -55,17 +47,9 @@ export default {
     async createEvent() {
       const { name, details, start, end } = this;
       if (!name || !start || !end) return;
-      // <同じ意味>if (!this.name || !this.details) return;
       this.event = { name, details, start, end };
       this.events = [...this.events, this.event];
       await API.graphql(graphqlOperation(createEvent, { input: this.event }));
-      //  <graphqlOperationを使わない場合>
-      //    await API.graphql({
-      //     query: createEvent,
-      //     variables: { input: event }
-      //    });
-      // this.name = "";
-      // this.details = "";
     },
     calendar() {
       this.$router.push({ path: "/" });
@@ -82,8 +66,6 @@ export default {
         query: listEvents
       });
       this.events = events.data.listEvents.items;
-      // this.$emit("getTodo", this.events[0].name);
-      // this.$store.commit("todocommit", this.events[5].name);
       for (let i = 0; i < this.events.length; i++) {
         this.event = this.events[i];
       }
