@@ -3,6 +3,6 @@ type Event @model {
   name: String!
   details: String
   start: AWSDate!
-  end: AWSDate!
+  end: AWSDate
   color: String
 }

@@ -26,9 +26,9 @@ export default {
     return {
       drawer: false,
       items: [
-        { title: "基本設定", link: "/" },
-        { title: "アプリの使い方", link: "./works" },
-        { title: "利用情報", link: "./about" },
+        { title: "ホーム", link: "/" },
+        { title: "アプリの使い方", link: "/" },
+        { title: "利用情報", link: "/" },
         { title: "お問い合わせ", link: "./contact" },
         { title: "ログアウト", link: "./logout" }
       ]

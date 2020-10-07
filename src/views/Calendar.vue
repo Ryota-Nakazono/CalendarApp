@@ -6,6 +6,9 @@
           <v-btn outlined>
             <router-link to="/newEvent">New</router-link>
           </v-btn>
+          <v-btn outlined>
+            <router-link to="/workDay">勤務日一括登録</router-link>
+          </v-btn>
           <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
             Today
           </v-btn>
@@ -79,7 +82,8 @@
               </v-btn>
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <h3>{{ start }} ～ {{ end }}</h3>
+              <p>{{ this.selectedEvent.details }}</p>
             </v-card-text>
             <v-card-actions>
               <v-btn text color="secondary" @click="selectedOpen = false">
@@ -101,6 +105,10 @@ export default {
     this.getEvents();
   },
   data: () => ({
+    isActive: false,
+    workDay: "",
+    start: "",
+    end: "",
     focus: "",
     type: "month",
     typeToLabel: {
@@ -113,15 +121,7 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     events: [],
-    colors: [
-      "blue",
-      "indigo",
-      "deep-purple",
-      "cyan",
-      "green",
-      "orange",
-      "grey darken-1"
-    ]
+    defaultColor: "grey darken-4"
   }),
   mounted() {
     this.$refs.calendar.checkChange();
@@ -132,7 +132,11 @@ export default {
       this.type = "day";
     },
     getEventColor(event) {
-      return event.color;
+      if (event.color) {
+        return event.color;
+      } else {
+        return this.defaultColor;
+      }
     },
     setToday() {
       this.focus = "";
@@ -146,6 +150,8 @@ export default {
     showEvent({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event;
+        this.start = this.selectedEvent.start.toISOString().split("T")[0];
+        this.end = this.selectedEvent.end.toISOString().split("T")[0];
         this.selectedElement = nativeEvent.target;
         console.log(this.selectedEvent);
         setTimeout(() => {
@@ -164,19 +170,18 @@ export default {
       const todayEventId = this.selectedEvent.id;
       const todayEventName = this.selectedEvent.name;
       const todayEventDetails = this.selectedEvent.details;
-      let startD = this.selectedEvent.start;
-      const todayEventStart = startD.toISOString().split("T")[0];
-      let endD = this.selectedEvent.end;
-      const todayEventEnd = endD.toISOString().split("T")[0];
-      this.$store.commit("eventId", todayEventId);
-      this.$store.commit("eventName", todayEventName);
-      this.$store.commit("eventDetails", todayEventDetails);
-      this.$store.commit("eventStart", todayEventStart);
-      this.$store.commit("eventEnd", todayEventEnd);
+      let startDate = this.selectedEvent.start;
+      const todayEventStart = startDate.toISOString().split("T")[0];
+      let endDate = this.selectedEvent.end;
+      const todayEventEnd = endDate.toISOString().split("T")[0];
+      const todayEventColor = this.selectedEvent.color;
+      this.$store.dispatch("todayEventId", todayEventId);
+      this.$store.dispatch("todayEventName", todayEventName);
+      this.$store.dispatch("todayEventDetails", todayEventDetails);
+      this.$store.dispatch("todayEventStart", todayEventStart);
+      this.$store.dispatch("todayEventEnd", todayEventEnd);
+      this.$store.dispatch("todayEventColor", todayEventColor);
       this.$router.push({ name: "changeEvent", path: "/changeEvent" });
-    },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a;
     },
     async getEvents() {
       const events = [];
@@ -184,7 +189,6 @@ export default {
         query: listEvents
       });
       const eventItems = allGetEvents.data.listEvents.items;
-      console.log(eventItems);
       for (let i = 0; i < eventItems.length; i++) {
         events.push({
           id: eventItems[i].id,
@@ -192,7 +196,7 @@ export default {
           start: new Date(eventItems[i].start),
           end: new Date(eventItems[i].end),
           details: eventItems[i].details,
-          color: this.colors[i],
+          color: eventItems[i].color,
           timed: false
         });
       }

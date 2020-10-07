@@ -9,16 +9,9 @@
       <v-text-field v-model="details" type="text" label="詳細"></v-text-field>
       <v-text-field v-model="start" type="date" label="開始時刻"></v-text-field>
       <v-text-field v-model="end" type="date" label="終了時刻"></v-text-field>
-      <!-- <v-text-field
-        v-model="color"
-        type="color"
-        label="color (click to open color menu)"
-      ></v-text-field> -->
+      <v-select v-model="color" :items="items" label="ラベルの色"></v-select>
       <v-btn @click="createEvent" type="submit" color="primary" class="mr-4">
         create event
-      </v-btn>
-      <v-btn @click="deleteEvent" type="submit" color="primary" class="mr-4">
-        delete event
       </v-btn>
       <v-btn @click="calendar">戻る</v-btn>
     </v-form>
@@ -27,7 +20,7 @@
 
 <script>
 import { API, graphqlOperation } from "aws-amplify";
-import { createEvent, deleteEvent } from "../graphql/mutations";
+import { createEvent } from "../graphql/mutations";
 import { listEvents } from "../graphql/queries";
 export default {
   async created() {
@@ -40,26 +33,26 @@ export default {
       start: "",
       end: "",
       event: {},
-      events: []
+      color: "",
+      items: [
+        { text: "赤", value: "red" },
+        { text: "オレンジ", value: "orange" },
+        { text: "黄色", value: "yellow" },
+        { text: "緑", value: "green" },
+        { text: "青", value: "blue" }
+      ]
     };
   },
   methods: {
     async createEvent() {
-      const { name, details, start, end } = this;
+      const { name, details, start, end, color } = this;
+      console.log(color);
       if (!name || !start || !end) return;
-      this.event = { name, details, start, end };
-      this.events = [...this.events, this.event];
+      this.event = { name, details, start, end, color };
       await API.graphql(graphqlOperation(createEvent, { input: this.event }));
     },
     calendar() {
       this.$router.push({ path: "/" });
-    },
-    async deleteEvent() {
-      await API.graphql(
-        graphqlOperation(deleteEvent, {
-          input: { id: this.events[0].id }
-        })
-      );
     },
     async getEvents() {
       const events = await API.graphql({

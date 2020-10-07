@@ -9,30 +9,35 @@ export default new Vuex.Store({
     name: "",
     details: "",
     start: "",
-    end: ""
+    end: "",
+    color: ""
   },
   getters: {
     getEventId: state => state.id,
     getEventName: state => state.name,
     getEventDetails: state => state.details,
     getEventStart: state => state.start,
-    getEventEnd: state => state.end
+    getEventEnd: state => state.end,
+    getEventColor: state => state.color
   },
   mutations: {
-    eventId(state, todayEventId) {
-      state.id = todayEventId;
+    todayEventId(state, id) {
+      state.id = id;
     },
-    eventName(state, todayEventName) {
-      state.name = todayEventName;
+    todayEventName(state, name) {
+      state.name = name;
     },
-    eventDetails(state, todayEventDetails) {
-      state.details = todayEventDetails;
+    todayEventDetails(state, details) {
+      state.details = details;
     },
-    eventStart(state, todayEventStart) {
-      state.start = todayEventStart;
+    todayEventStart(state, start) {
+      state.start = start;
     },
-    eventEnd(state, todayEventEnd) {
-      state.end = todayEventEnd;
+    todayEventEnd(state, end) {
+      state.end = end;
+    },
+    todayEventColor(state, color) {
+      state.color = color;
     },
     updateName(state, newName) {
       state.name = newName;
@@ -45,9 +50,30 @@ export default new Vuex.Store({
     },
     updateEnd(state, newEnd) {
       state.end = newEnd;
+    },
+    updateColor(state, newColor) {
+      state.color = newColor;
     }
   },
   actions: {
+    todayEventId({ commit }, Id) {
+      commit("todayEventId", Id);
+    },
+    todayEventName({ commit }, name) {
+      commit("todayEventName", name);
+    },
+    todayEventDetails({ commit }, details) {
+      commit("todayEventDetails", details);
+    },
+    todayEventStart({ commit }, start) {
+      commit("todayEventStart", start);
+    },
+    todayEventEnd({ commit }, end) {
+      commit("todayEventEnd", end);
+    },
+    todayEventColor({ commit }, color) {
+      commit("todayEventColor", color);
+    },
     updateName({ commit }, newName) {
       commit("updateName", newName);
     },
@@ -59,6 +85,9 @@ export default new Vuex.Store({
     },
     updateEnd({ commit }, newEnd) {
       commit("updateEnd", newEnd);
+    },
+    updateColor({ commit }, newColor) {
+      commit("updateColor", newColor);
     }
   }
 });

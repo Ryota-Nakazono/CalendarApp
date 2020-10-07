@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import Calendar from "../views/Calendar.vue";
 import NewEvent from "../views/NewEvent.vue";
 import ChangeEvent from "../views/ChangeEvent.vue";
+import WorkDay from "../views/WorkDay.vue";
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
     path: "/changeEvent",
     name: "changeEvent",
     component: ChangeEvent
+  },
+  {
+    path: "/workDay",
+    name: "workDay",
+    component: WorkDay
   }
 ];
 
