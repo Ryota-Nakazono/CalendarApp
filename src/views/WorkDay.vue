@@ -7,14 +7,48 @@
         type="date"
         label="勤務日を選択"
       ></v-text-field>
-      <v-btn @click="createEvent" type="submit" color="primary" class="mr-4">
-        パターンを登録する
+      <v-btn @click="createEvent" color="primary" class="mr-4">
+        一括登録
       </v-btn>
       <v-btn @click="deleteEvent" color="primary" class="mr-4">
-        パターンを削除する
+        一括削除
       </v-btn>
       <v-btn @click="calendar">戻る</v-btn>
     </v-form>
+    <!-- CreateEventのダイアログ -->
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">
+          Success!
+        </v-card-title>
+        <v-card-text>
+          2交代制の勤務日をカレンダーに一括で出力しました。
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="calendar">
+            戻る
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- DeleteEventのダイアログ -->
+    <v-dialog v-model="dialog2" max-width="290">
+      <v-card>
+        <v-card-title class="headline">
+          Success!
+        </v-card-title>
+        <v-card-text>
+          勤務日の予定を全て削除しました。
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="calendar">
+            戻る
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -28,6 +62,8 @@ export default {
   },
   data() {
     return {
+      dialog: false,
+      dialog2: false,
       name: "",
       start: "",
       end: "",
@@ -55,6 +91,7 @@ export default {
         this.event = { name, start, color };
         await API.graphql(graphqlOperation(createEvent, { input: this.event }));
       }
+      this.dialog = true;
     },
     calendar() {
       this.$router.push({ path: "/" });
@@ -68,6 +105,7 @@ export default {
           })
         );
       }
+      this.dialog2 = true;
     },
     async getEvents() {
       const events = await API.graphql(

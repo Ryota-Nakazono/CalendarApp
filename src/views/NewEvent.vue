@@ -10,11 +10,28 @@
       <v-text-field v-model="start" type="date" label="開始時刻"></v-text-field>
       <v-text-field v-model="end" type="date" label="終了時刻"></v-text-field>
       <v-select v-model="color" :items="items" label="ラベルの色"></v-select>
-      <v-btn @click="createEvent" type="submit" color="primary" class="mr-4">
+      <v-btn @click="createEvent" color="primary" class="mr-4">
         create event
       </v-btn>
       <v-btn @click="calendar">戻る</v-btn>
     </v-form>
+    <!-- CreateEventのダイアログ -->
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">
+          Success!
+        </v-card-title>
+        <v-card-text>
+          予定を作成しました。
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="calendar">
+            戻る
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -28,6 +45,7 @@ export default {
   },
   data() {
     return {
+      dialog: false,
       name: "",
       details: "",
       start: "",
@@ -50,6 +68,7 @@ export default {
       if (!name || !start || !end) return;
       this.event = { name, details, start, end, color };
       await API.graphql(graphqlOperation(createEvent, { input: this.event }));
+      this.dialog = true;
     },
     calendar() {
       this.$router.push({ path: "/" });

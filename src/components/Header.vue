@@ -8,7 +8,7 @@
         {{ item.title }}
       </v-btn>
     </v-toolbar-items>
-    <v-navigation-drawer v-model="drawer" absolute temporary right>
+    <v-navigation-drawer v-model="drawer" app absolute temporary right>
       <v-list>
         <v-list-item v-for="item in items" :key="item.title" :to="item.link">
           <v-list-item-content>
@@ -27,9 +27,8 @@ export default {
       drawer: false,
       items: [
         { title: "ホーム", link: "/" },
-        { title: "アプリの使い方", link: "/" },
-        { title: "利用情報", link: "/" },
-        { title: "お問い合わせ", link: "./contact" },
+        { title: "予定の作成", link: "/newEvent" },
+        { title: "勤務日一括登録", link: "/workDay" },
         { title: "ログアウト", link: "./logout" }
       ]
     };

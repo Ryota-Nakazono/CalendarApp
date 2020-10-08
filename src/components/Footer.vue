@@ -1,10 +1,16 @@
 <template>
-  <v-card class="hidden-sm-and-up">
+  <v-card class="hidden-sm-and-up" dark>
     <v-footer fixed class="pa-0">
-      <v-card flat tile width="100%" color="primary" class="text-center" dark>
+      <v-card flat tile width="100%" color="primary" class="text-center">
         <v-card-text>
-          <v-btn v-for="icon in icons" :key="icon" class="mx-5" icon>
-            <v-icon size="24px">{{ icon }}</v-icon>
+          <v-btn
+            v-for="item in items"
+            :key="item.title"
+            :to="item.link"
+            class="mx-3"
+            text
+          >
+            {{ item.title }}
           </v-btn>
         </v-card-text>
       </v-card>
@@ -15,7 +21,11 @@
 <script>
 export default {
   data: () => ({
-    icons: ["mdi-home", "mdi-email", "mdi-calendar", "mdi-delete"]
+    items: [
+      { title: "Home", link: "/" },
+      { title: "New", link: "/newEvent" },
+      { title: "WorkDay", link: "/workDay" }
+    ]
   })
 };
 </script>

@@ -35,18 +35,45 @@
       <v-btn @click="updateEvent" color="primary" class="mr-3">
         update event
       </v-btn>
-      <v-btn @click="deleteEvent" type="submit" color="primary" class="mr-3">
+      <v-btn @click="deleteEvent" color="primary" class="mr-3">
         delete event
       </v-btn>
       <v-btn @click="calendar">戻る</v-btn>
     </v-form>
-    <div>
-      <h2>{{ name }}</h2>
-      <h2>{{ details }}</h2>
-      <h2>{{ start }}</h2>
-      <h2>{{ end }}</h2>
-      <h2>{{ color }}</h2>
-    </div>
+    <!-- updateEventのダイアログ -->
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">
+          Success!
+        </v-card-title>
+        <v-card-text>
+          予定を変更しました。
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="calendar">
+            戻る
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- DeleteEventのダイアログ -->
+    <v-dialog v-model="dialog2" max-width="290">
+      <v-card>
+        <v-card-title class="headline">
+          Success!
+        </v-card-title>
+        <v-card-text>
+          予定を削除しました。
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="calendar">
+            戻る
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -55,6 +82,8 @@ import { API, graphqlOperation } from "aws-amplify";
 import { updateEvent, deleteEvent } from "../graphql/mutations";
 export default {
   data: () => ({
+    dialog: false,
+    dialog2: false,
     id: "",
     name: "",
     details: "",
@@ -110,6 +139,7 @@ export default {
       this.event = { id, name, details, start, end, color };
       console.log(this.event);
       await API.graphql(graphqlOperation(updateEvent, { input: this.event }));
+      this.dialog = true;
     },
     calendar() {
       this.$router.push({ path: "/" });
@@ -120,6 +150,7 @@ export default {
           input: { id: this.$store.getters.getEventId }
         })
       );
+      this.dialog2 = true;
     }
   }
 };

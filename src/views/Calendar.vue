@@ -3,15 +3,22 @@
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat>
-          <v-btn outlined>
-            <router-link to="/newEvent">New</router-link>
-          </v-btn>
-          <v-btn outlined>
-            <router-link to="/workDay">勤務日一括登録</router-link>
-          </v-btn>
-          <v-btn outlined class="mr-4" color="grey darken-2" @click="setToday">
-            Today
-          </v-btn>
+          <v-container class="hidden-xs-only">
+            <v-btn outlined>
+              <router-link to="/newEvent">New</router-link>
+            </v-btn>
+            <v-btn outlined>
+              <router-link to="/workDay">勤務日一括登録</router-link>
+            </v-btn>
+            <v-btn
+              outlined
+              class="mr-4"
+              color="grey darken-2"
+              @click="setToday"
+            >
+              Today
+            </v-btn>
+          </v-container>
           <v-btn fab text small color="grey darken-2" @click="prev">
             <v-icon small>
               mdi-chevron-left
@@ -52,7 +59,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="600">
+      <v-sheet height="500">
         <v-calendar
           ref="calendar"
           v-model="focus"
