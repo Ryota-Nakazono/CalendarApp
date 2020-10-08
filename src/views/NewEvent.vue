@@ -63,9 +63,12 @@ export default {
   },
   methods: {
     async createEvent() {
-      const { name, details, start, end, color } = this;
+      let { name, details, start, end, color } = this;
       console.log(color);
-      if (!name || !start || !end) return;
+      if (!name || !start) return;
+      if (!end) {
+        end = start;
+      }
       this.event = { name, details, start, end, color };
       await API.graphql(graphqlOperation(createEvent, { input: this.event }));
       this.dialog = true;

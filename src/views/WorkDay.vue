@@ -1,11 +1,11 @@
 <template>
   <v-container>
     <v-form>
-      <v-text-field v-model="name" type="text" label="勤務日"></v-text-field>
+      <v-text-field v-model="name" type="text" disabled></v-text-field>
       <v-text-field
         v-model="start"
         type="date"
-        label="勤務日を選択"
+        label="１当務目の日付"
       ></v-text-field>
       <v-btn @click="createEvent" color="primary" class="mr-4">
         一括登録
@@ -64,7 +64,7 @@ export default {
     return {
       dialog: false,
       dialog2: false,
-      name: "",
+      name: "勤務日",
       start: "",
       end: "",
       event: {},
@@ -73,14 +73,15 @@ export default {
   },
   methods: {
     async createEvent() {
-      let { name, start, color } = this;
+      let { name, start, end, color } = this;
       if (!name || !start) return;
       for (let d = 1; d <= 5; d++) {
         start = new Date(this.start);
         start.setDate(start.getDate() - 6);
         start.setDate(start.getDate() + 6 * d);
         start = start.toISOString().split("T")[0];
-        this.event = { name, start, color };
+        end = start;
+        this.event = { name, start, end, color };
         await API.graphql(graphqlOperation(createEvent, { input: this.event }));
       }
       for (let d = 1; d <= 5; d++) {
@@ -88,7 +89,8 @@ export default {
         start.setDate(start.getDate() - 4);
         start.setDate(start.getDate() + 6 * d);
         start = start.toISOString().split("T")[0];
-        this.event = { name, start, color };
+        end = start;
+        this.event = { name, start, end, color };
         await API.graphql(graphqlOperation(createEvent, { input: this.event }));
       }
       this.dialog = true;

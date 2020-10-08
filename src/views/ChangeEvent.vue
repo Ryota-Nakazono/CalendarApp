@@ -134,8 +134,11 @@ export default {
       this.start = this.$store.getters.getEventStart;
       this.end = this.$store.getters.getEventEnd;
       this.color = this.$store.getters.getEventColor;
-      const { id, name, details, start, end, color } = this;
-      if (!name || !start || !end) return;
+      let { id, name, details, start, end, color } = this;
+      if (!name || !start) return;
+      if (!end) {
+        end = start;
+      }
       this.event = { id, name, details, start, end, color };
       console.log(this.event);
       await API.graphql(graphqlOperation(updateEvent, { input: this.event }));
