@@ -16,5 +16,13 @@
         }
       }
     }
+  },
+  "auth": {
+    "firefighterscalendar30360499": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
   }
 }
