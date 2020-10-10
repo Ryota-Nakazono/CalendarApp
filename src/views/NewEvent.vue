@@ -7,8 +7,31 @@
         label="予定のタイトル"
       ></v-text-field>
       <v-text-field v-model="details" type="text" label="詳細"></v-text-field>
-      <v-text-field v-model="start" type="date" label="開始時刻"></v-text-field>
-      <v-text-field v-model="end" type="date" label="終了時刻"></v-text-field>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field v-model="start" type="date" label="開始日">
+          </v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="startTime"
+            label="開始時刻"
+            type="time"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field v-model="end" type="date" label="終了日"></v-text-field>
+        </v-col>
+        <v-col cols="2">
+          <v-text-field
+            v-model="endTime"
+            label="終了時刻"
+            type="time"
+          ></v-text-field>
+        </v-col>
+      </v-row>
       <v-select v-model="color" :items="items" label="ラベルの色"></v-select>
       <v-btn @click="createEvent" color="primary" class="mr-4">
         create event
@@ -49,7 +72,9 @@ export default {
       name: "",
       details: "",
       start: "",
+      startTime: "12:30:00",
       end: "",
+      endTime: "13:30:00",
       event: {},
       color: "",
       items: [
@@ -63,13 +88,13 @@ export default {
   },
   methods: {
     async createEvent() {
-      let { name, details, start, end, color } = this;
+      let { name, details, start, startTime, end, endTime, color } = this;
       console.log(color);
       if (!name || !start) return;
       if (!end) {
         end = start;
       }
-      this.event = { name, details, start, end, color };
+      this.event = { name, details, start, startTime, end, endTime, color };
       await API.graphql(graphqlOperation(createEvent, { input: this.event }));
       this.dialog = true;
     },

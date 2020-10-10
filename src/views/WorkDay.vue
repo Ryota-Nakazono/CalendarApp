@@ -77,6 +77,7 @@ export default {
       if (!name || !start) return;
       for (let d = 1; d <= 5; d++) {
         start = new Date(this.start);
+        console.log(this.start);
         start.setDate(start.getDate() - 6);
         start.setDate(start.getDate() + 6 * d);
         start = start.toISOString().split("T")[0];

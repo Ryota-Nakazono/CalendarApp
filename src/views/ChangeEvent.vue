@@ -14,18 +14,40 @@
         type="text"
         label="詳細"
       ></v-text-field>
-      <v-text-field
-        :value="getEventStart"
-        @input="updateStart"
-        type="date"
-        label="開始時刻"
-      ></v-text-field>
-      <v-text-field
-        :value="getEventEnd"
-        @input="updateEnd"
-        type="date"
-        label="終了時刻"
-      ></v-text-field>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field
+            :value="getEventStart"
+            @input="updateStart"
+            type="date"
+            label="開始日"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3">
+          <v-text-field
+            label="開始時間"
+            value="12:30:00"
+            type="time"
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="6">
+          <v-text-field
+            :value="getEventEnd"
+            @input="updateEnd"
+            type="date"
+            label="終了日"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3">
+          <v-text-field
+            label="終了時間"
+            value="13:30:00"
+            type="time"
+          ></v-text-field>
+        </v-col>
+      </v-row>
       <v-select
         :value="getEventColor"
         @change="updateColor"
@@ -91,7 +113,13 @@ export default {
     end: "",
     color: "",
     event: {},
-    items: ["red", "blue", "黄色", "緑", "青", "グレイ"]
+    items: [
+      { text: "赤", value: "red" },
+      { text: "オレンジ", value: "orange" },
+      { text: "黄色", value: "yellow" },
+      { text: "緑", value: "green" },
+      { text: "青", value: "blue" }
+    ]
   }),
   computed: {
     getEventName() {

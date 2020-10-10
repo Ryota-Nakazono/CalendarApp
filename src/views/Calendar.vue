@@ -157,8 +157,8 @@ export default {
     showEvent({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event;
-        this.start = this.selectedEvent.start.toISOString().split("T")[0];
-        this.end = this.selectedEvent.end.toISOString().split("T")[0];
+        this.start = this.selectedEvent.start;
+        this.end = this.selectedEvent.end;
         this.selectedElement = nativeEvent.target;
         console.log(this.selectedEvent);
         setTimeout(() => {
@@ -174,20 +174,12 @@ export default {
       nativeEvent.stopPropagation();
     },
     changeEvent() {
-      const todayEventId = this.selectedEvent.id;
-      const todayEventName = this.selectedEvent.name;
-      const todayEventDetails = this.selectedEvent.details;
-      let startDate = this.selectedEvent.start;
-      const todayEventStart = startDate.toISOString().split("T")[0];
-      let endDate = this.selectedEvent.end;
-      const todayEventEnd = endDate.toISOString().split("T")[0];
-      const todayEventColor = this.selectedEvent.color;
-      this.$store.dispatch("todayEventId", todayEventId);
-      this.$store.dispatch("todayEventName", todayEventName);
-      this.$store.dispatch("todayEventDetails", todayEventDetails);
-      this.$store.dispatch("todayEventStart", todayEventStart);
-      this.$store.dispatch("todayEventEnd", todayEventEnd);
-      this.$store.dispatch("todayEventColor", todayEventColor);
+      this.$store.dispatch("todayEventId", this.selectedEvent.id);
+      this.$store.dispatch("todayEventName", this.selectedEvent.name);
+      this.$store.dispatch("todayEventDetails", this.selectedEvent.details);
+      this.$store.dispatch("todayEventStart", this.selectedEvent.start);
+      this.$store.dispatch("todayEventEnd", this.selectedEvent.end);
+      this.$store.dispatch("todayEventColor", this.selectedEvent.color);
       this.$router.push({ name: "changeEvent", path: "/changeEvent" });
     },
     async getEvents() {
@@ -200,12 +192,13 @@ export default {
         events.push({
           id: eventItems[i].id,
           name: eventItems[i].name,
-          start: new Date(eventItems[i].start),
-          end: new Date(eventItems[i].end),
+          start: eventItems[i].start,
+          end: eventItems[i].end,
           details: eventItems[i].details,
           color: eventItems[i].color,
           timed: false
         });
+        console.log(events);
       }
       this.events = events;
     }

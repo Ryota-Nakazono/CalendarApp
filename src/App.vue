@@ -1,7 +1,10 @@
 <template>
-  <v-app>
-    <AfterLogin></AfterLogin>
-  </v-app>
+  <amplify-authenticator>
+    <v-app>
+      <AfterLogin></AfterLogin>
+    </v-app>
+    <amplify-sign-out></amplify-sign-out>
+  </amplify-authenticator>
 </template>
 
 <script>

@@ -9,9 +9,12 @@ export const getEvent = /* GraphQL */ `
       details
       start
       end
+      startTime
+      endTime
       color
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -28,9 +31,12 @@ export const listEvents = /* GraphQL */ `
         details
         start
         end
+        startTime
+        endTime
         color
         createdAt
         updatedAt
+        owner
       }
       nextToken
     }

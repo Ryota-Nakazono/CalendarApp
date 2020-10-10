@@ -1,8 +1,10 @@
-type Event @model {
+type Event @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String!
   details: String
   start: AWSDate!
   end: AWSDate
+  startTime: AWSTime
+  endTime: AWSTime
   color: String
 }

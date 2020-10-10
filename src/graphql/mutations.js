@@ -12,9 +12,12 @@ export const createEvent = /* GraphQL */ `
       details
       start
       end
+      startTime
+      endTime
       color
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -29,9 +32,12 @@ export const updateEvent = /* GraphQL */ `
       details
       start
       end
+      startTime
+      endTime
       color
       createdAt
       updatedAt
+      owner
     }
   }
 `;
@@ -46,9 +52,12 @@ export const deleteEvent = /* GraphQL */ `
       details
       start
       end
+      startTime
+      endTime
       color
       createdAt
       updatedAt
+      owner
     }
   }
 `;
