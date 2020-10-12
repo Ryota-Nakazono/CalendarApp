@@ -61,20 +61,16 @@
 <script>
 import { API, graphqlOperation } from "aws-amplify";
 import { createEvent } from "../graphql/mutations";
-import { listEvents } from "../graphql/queries";
 export default {
-  async created() {
-    this.getEvents();
-  },
   data() {
     return {
       dialog: false,
       name: "",
       details: "",
       start: "",
-      startTime: "12:30:00",
+      startTime: "12:30",
       end: "",
-      endTime: "13:30:00",
+      endTime: "13:30",
       event: {},
       color: "",
       items: [
@@ -96,19 +92,11 @@ export default {
       }
       this.event = { name, details, start, startTime, end, endTime, color };
       await API.graphql(graphqlOperation(createEvent, { input: this.event }));
+      console.log(this.event);
       this.dialog = true;
     },
     calendar() {
       this.$router.push({ path: "/" });
-    },
-    async getEvents() {
-      const events = await API.graphql({
-        query: listEvents
-      });
-      this.events = events.data.listEvents.items;
-      for (let i = 0; i < this.events.length; i++) {
-        this.event = this.events[i];
-      }
     }
   }
 };

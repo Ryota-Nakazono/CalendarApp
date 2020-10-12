@@ -9,7 +9,9 @@ export default new Vuex.Store({
     name: "",
     details: "",
     start: "",
+    startTime: "",
     end: "",
+    endTime: "",
     color: ""
   },
   getters: {
@@ -17,7 +19,9 @@ export default new Vuex.Store({
     getEventName: state => state.name,
     getEventDetails: state => state.details,
     getEventStart: state => state.start,
+    getEventStartTime: state => state.startTime,
     getEventEnd: state => state.end,
+    getEventEndTime: state => state.endTime,
     getEventColor: state => state.color
   },
   mutations: {
@@ -33,8 +37,14 @@ export default new Vuex.Store({
     todayEventStart(state, start) {
       state.start = start;
     },
+    todayEventStartTime(state, startTime) {
+      state.startTime = startTime;
+    },
     todayEventEnd(state, end) {
       state.end = end;
+    },
+    todayEventEndTime(state, endTime) {
+      state.endTime = endTime;
     },
     todayEventColor(state, color) {
       state.color = color;
@@ -48,8 +58,14 @@ export default new Vuex.Store({
     updateStart(state, newStart) {
       state.start = newStart;
     },
+    updateStartTime(state, newStartTime) {
+      state.startTime = newStartTime;
+    },
     updateEnd(state, newEnd) {
       state.end = newEnd;
+    },
+    updateEndTime(state, newEndTime) {
+      state.endTime = newEndTime;
     },
     updateColor(state, newColor) {
       state.color = newColor;
@@ -68,8 +84,14 @@ export default new Vuex.Store({
     todayEventStart({ commit }, start) {
       commit("todayEventStart", start);
     },
+    todayEventStartTime({ commit }, startTime) {
+      commit("todayEventStartTime", startTime);
+    },
     todayEventEnd({ commit }, end) {
       commit("todayEventEnd", end);
+    },
+    todayEventEndTime({ commit }, endTime) {
+      commit("todayEventEndTime", endTime);
     },
     todayEventColor({ commit }, color) {
       commit("todayEventColor", color);
@@ -83,8 +105,14 @@ export default new Vuex.Store({
     updateStart({ commit }, newStart) {
       commit("updateStart", newStart);
     },
+    updateStartTime({ commit }, newStartTime) {
+      commit("updateStartTime", newStartTime);
+    },
     updateEnd({ commit }, newEnd) {
       commit("updateEnd", newEnd);
+    },
+    updateEndTime({ commit }, newEndTime) {
+      commit("updateEndTime", newEndTime);
     },
     updateColor({ commit }, newColor) {
       commit("updateColor", newColor);

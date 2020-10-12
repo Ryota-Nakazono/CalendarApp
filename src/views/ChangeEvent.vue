@@ -25,9 +25,10 @@
         </v-col>
         <v-col cols="3">
           <v-text-field
-            label="開始時間"
-            value="12:30:00"
+            :value="getEventStartTime"
+            @input="updateStartTime"
             type="time"
+            label="開始時間"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -42,9 +43,10 @@
         </v-col>
         <v-col cols="3">
           <v-text-field
-            label="終了時間"
-            value="13:30:00"
+            :value="getEventEndTime"
+            @input="updateEndTime"
             type="time"
+            label="終了時間"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -110,7 +112,9 @@ export default {
     name: "",
     details: "",
     start: "",
+    startTime: "",
     end: "",
+    endTime: "",
     color: "",
     event: {},
     items: [
@@ -131,8 +135,14 @@ export default {
     getEventStart() {
       return this.$store.getters.getEventStart;
     },
+    getEventStartTime() {
+      return this.$store.getters.getEventStartTime;
+    },
     getEventEnd() {
       return this.$store.getters.getEventEnd;
+    },
+    getEventEndTime() {
+      return this.$store.getters.getEventEndTime;
     },
     getEventColor() {
       return this.$store.getters.getEventColor;
@@ -148,26 +158,33 @@ export default {
     updateStart(start) {
       this.$store.dispatch("updateStart", start);
     },
+    updateStartTime(startTime) {
+      this.$store.dispatch("updateStartTime", startTime);
+    },
     updateEnd(end) {
       this.$store.dispatch("updateEnd", end);
     },
+    updateEndTime(endTime) {
+      this.$store.dispatch("updateEndTime", endTime);
+    },
     updateColor(color) {
       this.$store.dispatch("updateColor", color);
-      console.log(color);
     },
     async updateEvent() {
       this.id = this.$store.getters.getEventId;
       this.name = this.$store.getters.getEventName;
       this.details = this.$store.getters.getEventDetails;
       this.start = this.$store.getters.getEventStart;
+      this.startTime = this.$store.getters.getEventStartTime;
       this.end = this.$store.getters.getEventEnd;
+      this.endTime = this.$store.getters.getEventEndTime;
       this.color = this.$store.getters.getEventColor;
-      let { id, name, details, start, end, color } = this;
+      let { id, name, details, start, startTime, end, endTime, color } = this;
       if (!name || !start) return;
       if (!end) {
         end = start;
       }
-      this.event = { id, name, details, start, end, color };
+      this.event = { id, name, details, start, startTime, end, endTime, color };
       console.log(this.event);
       await API.graphql(graphqlOperation(updateEvent, { input: this.event }));
       this.dialog = true;

@@ -7,6 +7,9 @@
       <v-btn v-for="item in items" :key="item.title" :to="item.link" text small>
         {{ item.title }}
       </v-btn>
+      <v-btn text small>
+        <amplify-sign-out @click="reload"></amplify-sign-out>
+      </v-btn>
     </v-toolbar-items>
     <v-navigation-drawer v-model="drawer" app absolute temporary right>
       <v-list>
@@ -15,6 +18,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
+        <amplify-sign-out @click="reload"></amplify-sign-out>
       </v-list>
     </v-navigation-drawer>
   </v-app-bar>
@@ -28,10 +32,14 @@ export default {
       items: [
         { title: "ホーム", link: "/" },
         { title: "予定の作成", link: "/newEvent" },
-        { title: "勤務日一括登録", link: "/workDay" },
-        { title: "ログアウト", link: "./logout" }
+        { title: "勤務日登録・削除", link: "/workDay" }
       ]
     };
+  },
+  methods: {
+    reload() {
+      location.reload(true);
+    }
   }
 };
 </script>

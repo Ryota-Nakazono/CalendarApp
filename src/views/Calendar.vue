@@ -8,7 +8,7 @@
               <router-link to="/newEvent">New</router-link>
             </v-btn>
             <v-btn outlined>
-              <router-link to="/workDay">勤務日一括登録</router-link>
+              <router-link to="/workDay">勤務日登録・削除</router-link>
             </v-btn>
             <v-btn
               outlined
@@ -89,7 +89,7 @@
               </v-btn>
             </v-toolbar>
             <v-card-text>
-              <h3>{{ start }} ～ {{ end }}</h3>
+              <h3>{{ startTime }} ～ {{ endTime }}</h3>
               <p>{{ this.selectedEvent.details }}</p>
             </v-card-text>
             <v-card-actions>
@@ -115,7 +115,9 @@ export default {
     isActive: false,
     workDay: "",
     start: "",
+    startTime: "",
     end: "",
+    endTime: "",
     focus: "",
     type: "month",
     typeToLabel: {
@@ -158,9 +160,10 @@ export default {
       const open = () => {
         this.selectedEvent = event;
         this.start = this.selectedEvent.start;
+        this.startTime = this.selectedEvent.startTime;
         this.end = this.selectedEvent.end;
+        this.endTime = this.selectedEvent.endTime;
         this.selectedElement = nativeEvent.target;
-        console.log(this.selectedEvent);
         setTimeout(() => {
           this.selectedOpen = true;
         }, 10);
@@ -178,7 +181,9 @@ export default {
       this.$store.dispatch("todayEventName", this.selectedEvent.name);
       this.$store.dispatch("todayEventDetails", this.selectedEvent.details);
       this.$store.dispatch("todayEventStart", this.selectedEvent.start);
+      this.$store.dispatch("todayEventStartTime", this.selectedEvent.startTime);
       this.$store.dispatch("todayEventEnd", this.selectedEvent.end);
+      this.$store.dispatch("todayEventEndTime", this.selectedEvent.endTime);
       this.$store.dispatch("todayEventColor", this.selectedEvent.color);
       this.$router.push({ name: "changeEvent", path: "/changeEvent" });
     },
@@ -193,12 +198,13 @@ export default {
           id: eventItems[i].id,
           name: eventItems[i].name,
           start: eventItems[i].start,
+          startTime: eventItems[i].startTime,
           end: eventItems[i].end,
+          endTime: eventItems[i].endTime,
           details: eventItems[i].details,
           color: eventItems[i].color,
           timed: false
         });
-        console.log(events);
       }
       this.events = events;
     }

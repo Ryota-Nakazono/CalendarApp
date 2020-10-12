@@ -22,7 +22,7 @@
           Success!
         </v-card-title>
         <v-card-text>
-          2交代制の勤務日をカレンダーに一括で出力しました。
+          勤務日をカレンダーに出力しました。
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
