@@ -160,8 +160,10 @@ export default {
       const open = () => {
         this.selectedEvent = event;
         this.start = this.selectedEvent.start;
+        console.log(this.start);
         this.startTime = this.selectedEvent.startTime;
         this.end = this.selectedEvent.end;
+        console.log(this.end);
         this.endTime = this.selectedEvent.endTime;
         this.selectedElement = nativeEvent.target;
         setTimeout(() => {
@@ -180,9 +182,15 @@ export default {
       this.$store.dispatch("todayEventId", this.selectedEvent.id);
       this.$store.dispatch("todayEventName", this.selectedEvent.name);
       this.$store.dispatch("todayEventDetails", this.selectedEvent.details);
-      this.$store.dispatch("todayEventStart", this.selectedEvent.start);
+      this.$store.dispatch(
+        "todayEventStart",
+        this.selectedEvent.start.toISOString().split("T")[0]
+      );
       this.$store.dispatch("todayEventStartTime", this.selectedEvent.startTime);
-      this.$store.dispatch("todayEventEnd", this.selectedEvent.end);
+      this.$store.dispatch(
+        "todayEventEnd",
+        this.selectedEvent.end.toISOString().split("T")[0]
+      );
       this.$store.dispatch("todayEventEndTime", this.selectedEvent.endTime);
       this.$store.dispatch("todayEventColor", this.selectedEvent.color);
       this.$router.push({ name: "changeEvent", path: "/changeEvent" });
@@ -197,13 +205,13 @@ export default {
         events.push({
           id: eventItems[i].id,
           name: eventItems[i].name,
-          start: eventItems[i].start,
+          start: new Date(eventItems[i].start + "T" + eventItems[i].startTime),
           startTime: eventItems[i].startTime,
-          end: eventItems[i].end,
+          end: new Date(eventItems[i].end + "T" + eventItems[i].endTime),
           endTime: eventItems[i].endTime,
           details: eventItems[i].details,
           color: eventItems[i].color,
-          timed: false
+          timed: true
         });
       }
       this.events = events;
