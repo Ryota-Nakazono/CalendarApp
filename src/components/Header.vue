@@ -1,6 +1,11 @@
 <template>
   <v-app-bar app color="primary" dark>
     <v-spacer></v-spacer>
+    <v-toolbar-items class="hidden-xs-only">
+      <v-btn text small class="hidden-xs-only">
+        <amplify-sign-out @click="reload"></amplify-sign-out>
+      </v-btn>
+    </v-toolbar-items>
     <v-app-bar-nav-icon class="hidden-sm-and-up" @click.stop="drawer = !drawer">
     </v-app-bar-nav-icon>
     <v-navigation-drawer v-model="drawer" app absolute temporary right>
