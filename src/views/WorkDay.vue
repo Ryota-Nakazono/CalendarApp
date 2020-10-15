@@ -66,32 +66,35 @@ export default {
       dialog2: false,
       name: "勤務日",
       start: "",
+      allDay: true,
+      startTime: "08:30",
       end: "",
+      endTime: "08:30",
       event: {},
       color: "grey"
     };
   },
   methods: {
     async createEvent() {
-      let { name, start, end, color } = this;
+      let { name, start, allDay, end, color } = this;
       if (!name || !start) return;
-      for (let d = 1; d <= 5; d++) {
+      for (let d = 1; d <= 6; d++) {
         start = new Date(this.start);
         console.log(this.start);
         start.setDate(start.getDate() - 6);
         start.setDate(start.getDate() + 6 * d);
         start = start.toISOString().split("T")[0];
         end = start;
-        this.event = { name, start, end, color };
+        this.event = { name, allDay, start, end, color };
         await API.graphql(graphqlOperation(createEvent, { input: this.event }));
       }
-      for (let d = 1; d <= 5; d++) {
+      for (let d = 1; d <= 6; d++) {
         start = new Date(this.start);
         start.setDate(start.getDate() - 4);
         start.setDate(start.getDate() + 6 * d);
         start = start.toISOString().split("T")[0];
         end = start;
-        this.event = { name, start, end, color };
+        this.event = { name, allDay, start, end, color };
         await API.graphql(graphqlOperation(createEvent, { input: this.event }));
       }
       this.dialog = true;

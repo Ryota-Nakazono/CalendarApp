@@ -3,14 +3,6 @@
     <v-spacer></v-spacer>
     <v-app-bar-nav-icon class="hidden-sm-and-up" @click.stop="drawer = !drawer">
     </v-app-bar-nav-icon>
-    <v-toolbar-items class="hidden-xs-only">
-      <v-btn v-for="item in items" :key="item.title" :to="item.link" text small>
-        {{ item.title }}
-      </v-btn>
-      <v-btn text small>
-        <amplify-sign-out @click="reload"></amplify-sign-out>
-      </v-btn>
-    </v-toolbar-items>
     <v-navigation-drawer v-model="drawer" app absolute temporary right>
       <v-list>
         <v-list-item v-for="item in items" :key="item.title" :to="item.link">

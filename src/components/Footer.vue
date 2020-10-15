@@ -22,9 +22,9 @@
 export default {
   data: () => ({
     items: [
-      { title: "Home", link: "/" },
-      { title: "New", link: "/newEvent" },
-      { title: "WorkDay", link: "/workDay" }
+      { title: "ホーム", link: "/" },
+      { title: "新規作成", link: "/newEvent" },
+      { title: "勤務日", link: "/workDay" }
     ]
   })
 };

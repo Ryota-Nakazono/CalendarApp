@@ -6,11 +6,10 @@ export const onCreateEvent = /* GraphQL */ `
     onCreateEvent(owner: $owner) {
       id
       name
+      allDay
       details
       start
       end
-      startTime
-      endTime
       color
       createdAt
       updatedAt
@@ -23,11 +22,10 @@ export const onUpdateEvent = /* GraphQL */ `
     onUpdateEvent(owner: $owner) {
       id
       name
+      allDay
       details
       start
       end
-      startTime
-      endTime
       color
       createdAt
       updatedAt
@@ -40,11 +38,10 @@ export const onDeleteEvent = /* GraphQL */ `
     onDeleteEvent(owner: $owner) {
       id
       name
+      allDay
       details
       start
       end
-      startTime
-      endTime
       color
       createdAt
       updatedAt

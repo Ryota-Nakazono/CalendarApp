@@ -6,11 +6,10 @@ export const getEvent = /* GraphQL */ `
     getEvent(id: $id) {
       id
       name
+      allDay
       details
       start
       end
-      startTime
-      endTime
       color
       createdAt
       updatedAt
@@ -28,11 +27,10 @@ export const listEvents = /* GraphQL */ `
       items {
         id
         name
+        allDay
         details
         start
         end
-        startTime
-        endTime
         color
         createdAt
         updatedAt

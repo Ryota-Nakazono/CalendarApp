@@ -14,6 +14,12 @@
         type="text"
         label="詳細"
       ></v-text-field>
+      <v-switch
+        :input-value="getEventAllDay"
+        @change="updateAllDay"
+        label="終日"
+        color="primary"
+      ></v-switch>
       <v-row>
         <v-col cols="6">
           <v-text-field
@@ -25,6 +31,7 @@
         </v-col>
         <v-col cols="3">
           <v-text-field
+            v-if="!getEventAllDay"
             :value="getEventStartTime"
             @input="updateStartTime"
             type="time"
@@ -43,6 +50,7 @@
         </v-col>
         <v-col cols="3">
           <v-text-field
+            v-if="!getEventAllDay"
             :value="getEventEndTime"
             @input="updateEndTime"
             type="time"
@@ -111,6 +119,7 @@ export default {
     id: "",
     name: "",
     details: "",
+    allDay: "",
     start: "",
     startTime: "",
     end: "",
@@ -131,6 +140,10 @@ export default {
     },
     getEventDetails() {
       return this.$store.getters.getEventDetails;
+    },
+    getEventAllDay() {
+      console.log(this.$store.getters.getEventAllDay);
+      return this.$store.getters.getEventAllDay;
     },
     getEventStart() {
       return this.$store.getters.getEventStart;
@@ -155,6 +168,9 @@ export default {
     updateDetails(details) {
       this.$store.dispatch("updateDetails", details);
     },
+    updateAllDay(allDay) {
+      this.$store.dispatch("updateAllDay", allDay);
+    },
     updateStart(start) {
       this.$store.dispatch("updateStart", start);
     },
@@ -174,17 +190,24 @@ export default {
       this.id = this.$store.getters.getEventId;
       this.name = this.$store.getters.getEventName;
       this.details = this.$store.getters.getEventDetails;
+      this.allDay = this.$store.getters.getEventAllDay;
       this.start = this.$store.getters.getEventStart;
-      this.startTime = this.$store.getters.getEventStartTime;
       this.end = this.$store.getters.getEventEnd;
-      this.endTime = this.$store.getters.getEventEndTime;
-      this.color = this.$store.getters.getEventColor;
-      let { id, name, details, start, startTime, end, endTime, color } = this;
-      if (!name || !start) return;
-      if (!end) {
-        end = start;
+      if (!this.end) {
+        this.end = this.start;
       }
-      this.event = { id, name, details, start, startTime, end, endTime, color };
+      this.startTime = this.$store.getters.getEventStartTime;
+      if (this.startTime) {
+        this.start = this.start + "T" + this.startTime;
+      }
+      this.endTime = this.$store.getters.getEventEndTime;
+      if (this.endTime) {
+        this.end = this.end + "T" + this.endTime;
+      }
+      this.color = this.$store.getters.getEventColor;
+      let { id, name, details, allDay, start, end, color } = this;
+      if (!name || !start) return;
+      this.event = { id, name, details, allDay, start, end, color };
       console.log(this.event);
       await API.graphql(graphqlOperation(updateEvent, { input: this.event }));
       this.dialog = true;

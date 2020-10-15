@@ -1,10 +1,9 @@
 type Event @model @auth(rules: [{ allow: owner }]) {
   id: ID!
   name: String!
+  allDay: Boolean
   details: String
-  start: AWSDate!
-  end: AWSDate
-  startTime: AWSTime
-  endTime: AWSTime
+  start: String!
+  end: String
   color: String
 }

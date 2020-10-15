@@ -3,22 +3,20 @@
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat>
-          <v-container class="hidden-xs-only">
-            <v-btn outlined>
-              <router-link to="/newEvent">New</router-link>
-            </v-btn>
-            <v-btn outlined>
-              <router-link to="/workDay">勤務日登録・削除</router-link>
-            </v-btn>
-            <v-btn
-              outlined
-              class="mr-4"
-              color="grey darken-2"
-              @click="setToday"
-            >
-              Today
-            </v-btn>
-          </v-container>
+          <v-btn outlined class="mr-2 hidden-xs-only">
+            <router-link to="/newEvent">新規作成</router-link>
+          </v-btn>
+          <v-btn outlined class="mr-2 hidden-xs-only">
+            <router-link to="/workDay">勤務日登録・削除</router-link>
+          </v-btn>
+          <v-btn
+            outlined
+            class="mr-2 hidden-xs-only"
+            color="grey darken-2"
+            @click="setToday"
+          >
+            Today
+          </v-btn>
           <v-btn fab text small color="grey darken-2" @click="prev">
             <v-icon small>
               mdi-chevron-left
@@ -59,7 +57,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="500">
+      <v-sheet height="450">
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -89,7 +87,7 @@
               </v-btn>
             </v-toolbar>
             <v-card-text>
-              <h3>{{ startTime }} ～ {{ endTime }}</h3>
+              <h3 v-if="startTime">{{ startTime }} ～ {{ endTime }}</h3>
               <p>{{ this.selectedEvent.details }}</p>
             </v-card-text>
             <v-card-actions>
@@ -159,11 +157,10 @@ export default {
     showEvent({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event;
+        console.log(event);
         this.start = this.selectedEvent.start;
-        console.log(this.start);
         this.startTime = this.selectedEvent.startTime;
         this.end = this.selectedEvent.end;
-        console.log(this.end);
         this.endTime = this.selectedEvent.endTime;
         this.selectedElement = nativeEvent.target;
         setTimeout(() => {
@@ -182,15 +179,17 @@ export default {
       this.$store.dispatch("todayEventId", this.selectedEvent.id);
       this.$store.dispatch("todayEventName", this.selectedEvent.name);
       this.$store.dispatch("todayEventDetails", this.selectedEvent.details);
+      this.$store.dispatch("todayEventAllDay", this.selectedEvent.allDay);
       this.$store.dispatch(
         "todayEventStart",
-        this.selectedEvent.start.toISOString().split("T")[0]
+        this.selectedEvent.start.slice(0, 10)
       );
       this.$store.dispatch("todayEventStartTime", this.selectedEvent.startTime);
       this.$store.dispatch(
         "todayEventEnd",
-        this.selectedEvent.end.toISOString().split("T")[0]
+        this.selectedEvent.end.slice(0, 10)
       );
+      console.log(this.selectedEvent.end.slice(0, 10));
       this.$store.dispatch("todayEventEndTime", this.selectedEvent.endTime);
       this.$store.dispatch("todayEventColor", this.selectedEvent.color);
       this.$router.push({ name: "changeEvent", path: "/changeEvent" });
@@ -205,14 +204,16 @@ export default {
         events.push({
           id: eventItems[i].id,
           name: eventItems[i].name,
-          start: new Date(eventItems[i].start + "T" + eventItems[i].startTime),
-          startTime: eventItems[i].startTime,
-          end: new Date(eventItems[i].end + "T" + eventItems[i].endTime),
-          endTime: eventItems[i].endTime,
+          start: eventItems[i].start,
+          startTime: eventItems[i].start.slice(11, 16),
+          end: eventItems[i].end,
+          endTime: eventItems[i].end.slice(11, 16),
           details: eventItems[i].details,
           color: eventItems[i].color,
-          timed: true
+          timed: !eventItems[i].allDay,
+          allDay: eventItems[i].allDay
         });
+        console.log(events[i].timed);
       }
       this.events = events;
     }

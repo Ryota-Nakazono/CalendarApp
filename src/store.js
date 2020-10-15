@@ -8,6 +8,7 @@ export default new Vuex.Store({
     id: "",
     name: "",
     details: "",
+    allDay: "",
     start: "",
     startTime: "",
     end: "",
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     getEventId: state => state.id,
     getEventName: state => state.name,
     getEventDetails: state => state.details,
+    getEventAllDay: state => state.allDay,
     getEventStart: state => state.start,
     getEventStartTime: state => state.startTime,
     getEventEnd: state => state.end,
@@ -33,6 +35,9 @@ export default new Vuex.Store({
     },
     todayEventDetails(state, details) {
       state.details = details;
+    },
+    todayEventAllDay(state, allDay) {
+      state.allDay = allDay;
     },
     todayEventStart(state, start) {
       state.start = start;
@@ -54,6 +59,9 @@ export default new Vuex.Store({
     },
     updateDetails(state, newDetails) {
       state.details = newDetails;
+    },
+    updateAllDay(state, newAllDay) {
+      state.allDay = newAllDay;
     },
     updateStart(state, newStart) {
       state.start = newStart;
@@ -81,6 +89,9 @@ export default new Vuex.Store({
     todayEventDetails({ commit }, details) {
       commit("todayEventDetails", details);
     },
+    todayEventAllDay({ commit }, allDay) {
+      commit("todayEventAllDay", allDay);
+    },
     todayEventStart({ commit }, start) {
       commit("todayEventStart", start);
     },
@@ -101,6 +112,9 @@ export default new Vuex.Store({
     },
     updateDetails({ commit }, newDetails) {
       commit("updateDetails", newDetails);
+    },
+    updateAllDay({ commit }, newAllDay) {
+      commit("updateAllDay", newAllDay);
     },
     updateStart({ commit }, newStart) {
       commit("updateStart", newStart);
